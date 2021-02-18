@@ -16,6 +16,7 @@ var collections = JSON.parse(fs.readFileSync(process.env.DIST+'collections.json'
 var instructors = JSON.parse(fs.readFileSync(process.env.DIST+'instructors.json'));
 var products = JSON.parse(fs.readFileSync(process.env.DIST+'products.json'));
 var courses = JSON.parse(fs.readFileSync(process.env.DIST+'courses.json'));
+var product_prices = JSON.parse(fs.readFileSync(process.env.DIST+'product-prices.json'));
 
 var products_json = [];
 products.forEach(product => {
@@ -80,6 +81,32 @@ products.forEach(product => {
         product_json.link = "https://learn.fiverr.com/courses/"+ product.slug;
         product_json.isbundle = "false";
         product_json.instructor_name = product.instructor_names;
+        var _pindex = product_prices.findIndex(function(product, index) {
+            if(product.productid.toString() == product_json.productid)
+                return true;
+        });  
+        if(_pindex != -1){
+            product_prices[_pindex].product_prices.forEach(price => {
+                if(price.name != null){
+                    if(price.name.toLowerCase().includes("sale")){
+                        sale = true;
+                        sale_price = price.price;
+                        tag = "sale";
+                    }
+                    if(price.name.toLowerCase().includes("new")){
+                        new_course = true;
+                        tag = "new"
+                    }
+                    if(price.name.toLowerCase().includes("coming soon")){
+                        coming_soon = true;
+                        tag = "early bird price"
+                        coming_soon_price = price.price;
+                    }
+                }
+            });
+        }
+
+        /* commenting out as the API is not working - using liquid api to manually create prices json instead
         product.product_prices.forEach(price => {
             if(price.label != null){
                 if(price.label.toLowerCase().includes("sale")){
@@ -98,6 +125,7 @@ products.forEach(product => {
                 }
             }
         });
+        */
         var _index = courses.findIndex(function(course, index) {
             if(course.id.toString() == product_json.productid)
                 return true;

@@ -68,18 +68,18 @@ products.forEach(product => {
         product_json.searchtags = product.keywords;
         
     }
-    
+    if(product.status == "published"){
+        product_json.draft = "false";
+    } else {
+        product_json.draft = "true";
+    }    
     if(product.productable_id==958819){ // special course hiddn but public
         product_json.draft = "true";
     }
     if(product.hidden){
         product_json.draft = "true";
     }
-    if(product.status == "published"){
-        product_json.draft = "false";
-    } else {
-        product_json.draft = "true";
-    }
+
     if(product.productable_type =="Course"){
         product_json.link = "https://learn.fiverr.com/courses/"+ product.slug;
         product_json.isbundle = "false";

@@ -62,6 +62,9 @@ products.forEach(product => {
         }               
     });
     product_json.collection_names = collection_names.join();
+    if(product_json.collection_names.includes("Best Seller")){
+        product_json.tag_custom = "Best Seller";
+    }
     //console.log(product.name + " " + product.collections); 
     //draft
     if(product.keywords!=null){ 

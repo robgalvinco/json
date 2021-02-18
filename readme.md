@@ -1,4 +1,9 @@
-#Instructions
+# Instructions
+
+## Requirements
+1. Node.JS must be installed
+2. NPM Must be installed
+3. For deploy script must have git installed and access to the repo
 
 ## Initial setup
 1 Run `npm install` command at terminal from this folder

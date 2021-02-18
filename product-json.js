@@ -72,6 +72,9 @@ products.forEach(product => {
     if(product.productable_id==958819){ // special course hiddn but public
         product_json.draft = "true";
     }
+    if(product.hidden){
+        product_json.draft = "true";
+    }
     if(product.status == "published"){
         product_json.draft = "false";
     } else {

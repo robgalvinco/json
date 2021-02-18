@@ -18,7 +18,13 @@
 ## Creating JSON
 1. Run `./generate.sh` command at terminal from this folder
 
-This will update all of the JSON files (locally) for reviews and product info
+This will update all of the JSON files (locally) for product info
+
+## Updating Reviews JSON
+1. Run `./reviews.sh` command at terminal from this folder
+
+This will update all of the JSON files (locally) for reviews 
+
 
 ## Deploying
 1. Run `./deploy.sh` command at terminal from this folder

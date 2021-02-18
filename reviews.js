@@ -23,7 +23,7 @@ function sleep(ms) {
   }
 const get_reviews = function(index,page){
     var url= endpoint+"course_reviews?approved=true&limit=250&course_id="+courses[index].id+"&page="+page;
-    console.log(url);
+    //console.log(url);
     return http({
         method: 'get',
         url: url,
@@ -31,14 +31,32 @@ const get_reviews = function(index,page){
         
       })
       .then(function (response) {
+            console.log(" got reviews "+courses[index].name + " Page: "+page);
             var items = response.data.items;
             var meta = response.data.meta;
             courses[index].total_reviews = meta.pagination.total_items;
             items.forEach(item => {
                 if(typeof(courses[index].reviews)=="undefined"){
-                    courses[index].reviews = [];
+                    //try to load existing ones, otherwise start with blank
+                    try {
+                        courses[index].reviews = JSON.parse(fs.readFileSync(process.env.DIST+"reviews/"+courses[index].id+'.json'));
+
+                    } catch (error) {
+                        courses[index].reviews = [];
+                    }
+                    
                 }
-                courses[index].reviews.push(item)
+                // if already exists then do not push
+                // because we do not want to overwrite the user
+                var _index = courses[index].reviews.findIndex(function(review, index) {
+                    if(review.id == item.id)
+                        return true;
+                });  
+                if(_index == -1){
+                    courses[index].reviews.push(item);
+                    console.log("New Review")
+                }
+                
             });
             var keep_going = false;
             if(meta.pagination.next_page!=null){
@@ -51,6 +69,7 @@ const get_reviews = function(index,page){
                 sleep(2000).then(() => { return get_reviews(index,meta.pagination.next_page) });                
                 
             } else {
+                console.log("Writing review file")
                 fs.writeFileSync(process.env.DIST+"reviews/"+courses[index].id+'.json', JSON.stringify(courses[index].reviews));
                 return;
             }

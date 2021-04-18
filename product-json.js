@@ -65,6 +65,9 @@ products.forEach(product => {
     if(product_json.collection_names.includes("Best Seller")){
         product_json.tag_custom = "Best Seller";
     }
+    if(product_json.collection_names.includes("New")){
+        tag = "New";
+    }
     //console.log(product.name + " " + product.collections); 
     //draft
     if(product.keywords!=null){ 
@@ -99,10 +102,10 @@ products.forEach(product => {
                         sale_price = price.price;
                         tag = "sale";
                     }
-                    if(price.name.toLowerCase().includes("new")){
+                    /*if(price.name.toLowerCase().includes("new")){
                         new_course = true;
                         tag = "new"
-                    }
+                    }*/
                     if(price.name.toLowerCase().includes("coming soon")){
                         coming_soon = true;
                         tag = "early bird price"

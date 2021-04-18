@@ -66,7 +66,7 @@ products.forEach(product => {
         product_json.tag_custom = "Best Seller";
     }
     if(product_json.collection_names.includes("New")){
-        tag = "New";
+        tag = "new";
     }
     //console.log(product.name + " " + product.collections); 
     //draft

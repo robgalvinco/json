@@ -36,6 +36,8 @@ This will push all of the local changes
 * do deploy
 * copy product_json to theme settings on fiverr site
 
+** Update Badges JSON for new courses before updating product JSON
+
 ## Files
 
 `https://cdn.jsdelivr.net/gh/robgalvinco/json@latest/public/products-json.json` : will be the json that is used for the full product catalog

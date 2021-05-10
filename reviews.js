@@ -31,9 +31,10 @@ const get_reviews = function(index,page){
         
       })
       .then(function (response) {
-            console.log(" got reviews "+courses[index].name + " Page: "+page);
             var items = response.data.items;
             var meta = response.data.meta;
+            console.log(" got reviews "+courses[index].name + " Page: "+page+ " Items:"+items.length + " meta:"+meta.pagination.total_items);
+            
             courses[index].total_reviews = meta.pagination.total_items;
             items.forEach(item => {
                 if(typeof(courses[index].reviews)=="undefined"){
@@ -69,7 +70,7 @@ const get_reviews = function(index,page){
                 sleep(2000).then(() => { return get_reviews(index,meta.pagination.next_page) });                
                 
             } else {
-                console.log("Writing review file")
+                console.log("Writing review file: "+ courses[index].id)
                 fs.writeFileSync(process.env.DIST+"reviews/"+courses[index].id+'.json', JSON.stringify(courses[index].reviews));
                 return;
             }

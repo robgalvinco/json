@@ -183,7 +183,7 @@ products.forEach(product => {
         var bundle = JSON.parse(fs.readFileSync(process.env.DIST+'bundles/'+product.productable_id+'.json'));
         product_json.bundlesize = bundle.course_ids.length.toString();
         product_json.bundlecourses = bundle.course_ids.join();
-        //console.log("Bundle ************"+bundle.name+" : "+product_json.bundlesize + " :"+product_json.bundlecourses);
+        console.log("Bundle ************"+bundle.name+" : "+product_json.bundlesize + " :"+product_json.bundlecourses);
         var course_total_price = parseFloat(0);
         bundle.course_ids.forEach(course_id => {
             var _bundle_c_index = courses.findIndex(function(course, index) {
@@ -192,20 +192,23 @@ products.forEach(product => {
             });  
             if(_bundle_c_index != -1){
  
-                // console.log("****** FOUND COURS *****")
                 var c = courses[_bundle_c_index];
+                 console.log("****** FOUND COURS ***** "+ c.name)
+                var c_time = 0;
                 //get total time
                 if(typeof(c.chapter_ids)!="undefined"){
-                    //console.log("Getting chapters file: "+ c.id)
+                    console.log("Getting chapters file: "+ c.id)
                     
                     var chapters = JSON.parse(fs.readFileSync(process.env.DIST+'chapters/'+c.id+'.json'));
-                    //console.log(JSON.stringify(chapters));
+                    console.log(JSON.stringify(chapters));
                     chapters.forEach(chapter => {
                         product_json.total_time_seconds += chapter.duration_in_seconds;
+                        c_time += chapter.duration_in_seconds;
                     });
                     
 
                 }
+                console.log("               course time: "+ c_time);
 
                 //get product prices
                 var _p_index = products.findIndex(function(product, index) {
@@ -226,7 +229,7 @@ products.forEach(product => {
             }
         });
         console.log ("Bundle course price total:"+course_total_price);
-        var total_hours = parseFloat(product_json.total_time_seconds / 60 / 60).toFixed(1);
+        var total_hours = parseFloat(product_json.total_time_seconds / 60 / 60).toFixed(0);
         console.log("Bundle: "+product_json.name+ " "+product_json.total_time_seconds + " " + total_hours);
         product_json.total_time_display = total_hours + " hours";        
         display_price = course_total_price.toString();          

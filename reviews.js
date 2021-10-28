@@ -22,7 +22,7 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 const get_reviews = function(index,page){
-    var url= endpoint+"course_reviews?approved=true&limit=250&course_id="+courses[index].id+"&page="+page;
+    var url= endpoint+"course_reviews?limit=250&course_id="+courses[index].id+"&page="+page;
     //console.log(url);
     return http({
         method: 'get',
